@@ -1,0 +1,32 @@
+<h1>Hello, Simple Blog</h1>
+<form action="/blog/create">
+  <input type="text" name="irm" placeholder="작성자"> <br>
+  <textarea name="naeyong" placeholder="내용"></textarea> <br>
+  <input type="submit">
+</form>
+
+<% @posts.each do |p| %>
+==========================================
+<li><%= p.writer %> :
+  <!-- 줄 바꿈을 인식하기 위해 pre 태그 삽입 -->
+  <pre> <%= p.content %></pre>
+
+  <!-- update한 시간 출력 -->
+  <p><%= p.updated_at %></p>
+  <a href="/blog/edit?id=<%= p.id %>"> 수정</a>
+  <a href="/blog/destroy?id=<%= p.id %>">삭제</a>
+</li>
+<ol>
+  <% p.comments.each do |c| %>
+  <li>
+    작성자 : <%= c.person %> / 내용 : <%= c.msg %>
+  </li>
+  <% end %>
+</ol>
+<%= form_tag "/blog/comment" do%>
+<input type="hidden" name="postId" value="<%= p.id %>" >
+<input type="text" name="commentIrm" placeholder="글쓴이">
+<input type="text" name="commentNaeyong" placeholder="댓글">
+<input type="submit">
+<% end %>
+<% end %>
